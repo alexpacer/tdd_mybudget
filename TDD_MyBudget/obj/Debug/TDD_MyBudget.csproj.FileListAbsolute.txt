@@ -11,7 +11,6 @@ C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\bin\Debug\System.Threading.Tasks
 C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
 C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\bin\Debug\System.Threading.Tasks.Extensions.xml
-C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\obj\Debug\TDD_MyBudget.csprojAssemblyReference.cache
 C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\obj\Debug\TDD_MyBudget.csproj.CoreCompileInputs.cache
 C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\obj\Debug\TDD_MyBudget.csproj.CopyComplete
 C:\Users\alex.wei\git\tdd_mybudget\TDD_MyBudget\obj\Debug\TDD_MyBudget.dll
