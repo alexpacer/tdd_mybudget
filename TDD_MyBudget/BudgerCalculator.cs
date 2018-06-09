@@ -19,7 +19,7 @@ namespace TDD_MyBudget
         {
             if (DateTime.Compare(EndDate, StartDate) < 0)
             {
-                throw new Exception("Illigle date");
+                throw new Exception("Illegal date");
             }
 
             if (StartDate.Year == EndDate.Year && StartDate.Month == EndDate.Month)
@@ -27,23 +27,18 @@ namespace TDD_MyBudget
                 return GetRsult(StartDate, EndDate);
             }
 
-            //foreach (var b in _repo.GetBudget())
-            //{
-            //    if (EndDate > b.GetDateTime() )
-            //    {
-
-
-            //    }
-            // }
-
             decimal totalBudget = 0;
             for (int year = StartDate.Year; year <= EndDate.Year; year++)
             {
                 for (int month = StartDate.Month; month <= EndDate.Month; month++)
                 {
-                    DateTime startDate = StartDate.Year == year && StartDate.Month == month ? new DateTime(year, month, StartDate.Day) : new DateTime(year, month, 1);
-                    DateTime endDate = EndDate.Year == year && EndDate.Month == month ? new DateTime(year, month, EndDate.Day) : new DateTime(year, month,DateTime.DaysInMonth(year, month));
-                     totalBudget +=   GetRsult(startDate, endDate);
+                    DateTime startDate = StartDate.Year == year && StartDate.Month == month
+                        ? new DateTime(year, month, StartDate.Day)
+                        : new DateTime(year, month, 1);
+                    DateTime endDate = EndDate.Year == year && EndDate.Month == month
+                        ? new DateTime(year, month, EndDate.Day)
+                        : new DateTime(year, month, DateTime.DaysInMonth(year, month));
+                    totalBudget += GetRsult(startDate, endDate);
                 }
             }
 
