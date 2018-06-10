@@ -10,28 +10,28 @@ namespace TDD_MyBudget
         {
             _repo = repo;
         }
-        public Decimal ReturnAmount(DateTime StartDate, DateTime EndDate)
+        public decimal ReturnAmount(DateTime start, DateTime end)
         {
-            if (DateTime.Compare(EndDate, StartDate) < 0)
+            if (DateTime.Compare(end, start) < 0)
             {
                 throw new Exception("Illegal date");
             }
 
-            if (StartDate.Year == EndDate.Year && StartDate.Month == EndDate.Month)
+            if (start.Year == end.Year && start.Month == end.Month)
             {
-                return GetRsult(StartDate, EndDate);
+                return GetRsult(start, end);
             }
 
             decimal totalBudget = 0;
-            for (var year = StartDate.Year; year <= EndDate.Year; year++)
+            for (var year = start.Year; year <= end.Year; year++)
             {
-                for (var month = StartDate.Month; month <= EndDate.Month; month++)
+                for (var month = start.Month; month <= end.Month; month++)
                 {
-                    var startDate = StartDate.Year == year && StartDate.Month == month
-                        ? new DateTime(year, month, StartDate.Day)
+                    var startDate = start.Year == year && start.Month == month
+                        ? new DateTime(year, month, start.Day)
                         : new DateTime(year, month, 1);
-                    var endDate = EndDate.Year == year && EndDate.Month == month
-                        ? new DateTime(year, month, EndDate.Day)
+                    var endDate = end.Year == year && end.Month == month
+                        ? new DateTime(year, month, end.Day)
                         : new DateTime(year, month, DateTime.DaysInMonth(year, month));
                     totalBudget += GetRsult(startDate, endDate);
                 }

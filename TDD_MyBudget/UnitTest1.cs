@@ -9,7 +9,7 @@ namespace TDD_MyBudget
     [TestClass]
     public class UnitTest1
     {
-        public IRepository<Budget> repo = Substitute.For<IRepository<Budget>>();
+        public IRepository<Budget> Repo = Substitute.For<IRepository<Budget>>();
         public BudgerCalculator BC;
         public List<Budget> ListofBudget = new List<Budget>
         {
@@ -19,98 +19,81 @@ namespace TDD_MyBudget
         };
 
         [TestInitialize]
-        public void init()
+        public void Init()
         {
-            repo.GetBudget().Returns(ListofBudget);
-            BC = new BudgerCalculator(repo);
+            Repo.GetBudget().Returns(ListofBudget);
+            BC = new BudgerCalculator(Repo);
         }
+
         [TestMethod]
         public void GetFullMonthResult()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture;;
-            
-            Assert.AreEqual(300, BC.ReturnAmount(DateTime.ParseExact("20180601", "yyyyMMdd", prov),
-                    DateTime.ParseExact("20180630", "yyyyMMdd", prov)));
-            
+            var val = BC.ReturnAmount(ConvertDateTime("20180601"),
+                ConvertDateTime("20180630"));
+            Assert.AreEqual(300, val);
         }
 
 
         [TestMethod]
         public void WrongDatEntered()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture; ;
-
-
-            Assert.ThrowsException<Exception>(() => BC.ReturnAmount(DateTime.ParseExact("20190601", "yyyyMMdd", prov),
-                DateTime.ParseExact("20180601", "yyyyMMdd", prov)) );
-
+            Assert.ThrowsException<Exception>(() => BC.ReturnAmount(ConvertDateTime("20190601"),
+                ConvertDateTime("20180601")));
         }
-
-
 
         [TestMethod]
         public void GetOneDayResult()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture; ;
-
-         Assert.AreEqual(10, BC.ReturnAmount(DateTime.ParseExact("20180601", "yyyyMMdd", prov),
-                DateTime.ParseExact("20180601", "yyyyMMdd", prov)));
-
+            var val = BC.ReturnAmount(ConvertDateTime("20180601"),
+                ConvertDateTime("20180601"));
+            Assert.AreEqual(10, val);
         }
-
 
         [TestMethod]
         public void WithOverlappedMonth()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture; ;
-
-
-            Assert.AreEqual( 610, BC.ReturnAmount(DateTime.ParseExact("20180601", "yyyyMMdd", prov),
-                DateTime.ParseExact("20180731", "yyyyMMdd", prov)));
+            var val = BC.ReturnAmount(ConvertDateTime("20180601"),
+                ConvertDateTime("20180731"));
+            Assert.AreEqual(610, val);
 
         }
 
         [TestMethod]
         public void GetZeroResult()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture; ;
-
-
-            Assert.AreEqual(0, BC.ReturnAmount(DateTime.ParseExact("20180801", "yyyyMMdd", prov),
-                DateTime.ParseExact("20180815", "yyyyMMdd", prov)));
+            var val = BC.ReturnAmount(ConvertDateTime("20180801"),
+                ConvertDateTime("20180815"));
+            Assert.AreEqual(0, val);
 
         }
 
         [TestMethod]
-        public void GetSpecialFebResult()
+        public void SpecialFebResult()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture; ;
-
-
-            Assert.AreEqual(2900, BC.ReturnAmount(DateTime.ParseExact("20160101", "yyyyMMdd", prov),
-                DateTime.ParseExact("20160330", "yyyyMMdd", prov)));
+            var val = BC.ReturnAmount(ConvertDateTime("20160101"), ConvertDateTime("20160330"));
+            Assert.AreEqual(2900, val);
 
         }
 
         [TestMethod]
-        public void GetSpecialFebResult_1()
+        public void SpecialFebResult_EdingInMidMonth()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture; ;
-
-
-            Assert.AreEqual(1400, BC.ReturnAmount(DateTime.ParseExact("20160203", "yyyyMMdd", prov),
-                DateTime.ParseExact("20160216", "yyyyMMdd", prov)));
+            var val = BC.ReturnAmount(ConvertDateTime("20160203"), ConvertDateTime("20160216"));
+            Assert.AreEqual(1400, val);
 
         }
 
         [TestMethod]
         public void GetFullResult()
         {
-            CultureInfo prov = CultureInfo.InvariantCulture; ;
+            var val = BC.ReturnAmount(ConvertDateTime("20160101"), ConvertDateTime("20181231"));
 
+            Assert.AreEqual(3510, val);
+        }
 
-            Assert.AreEqual(3510, BC.ReturnAmount(DateTime.ParseExact("20160101", "yyyyMMdd", prov),
-                DateTime.ParseExact("20181231", "yyyyMMdd", prov)));
+        private DateTime ConvertDateTime(string dateTimeStr)
+        {
+            return DateTime.ParseExact(dateTimeStr, "yyyyMMdd", CultureInfo.InvariantCulture);
 
         }
     }
