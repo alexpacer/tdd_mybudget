@@ -16,31 +16,37 @@ namespace TDD_MyBudget
             {
                 throw new Exception("Illegal date");
             }
-
-            if (start.Year == end.Year && start.Month == end.Month)
-            {
-                return GetRsult(start, end);
-            }
+            
 
             decimal totalBudget = 0;
             for (var year = start.Year; year <= end.Year; year++)
             {
                 for (var month = start.Month; month <= end.Month; month++)
                 {
-                    var startDate = start.Year == year && start.Month == month
-                        ? new DateTime(year, month, start.Day)
-                        : new DateTime(year, month, 1);
-                    var endDate = end.Year == year && end.Month == month
-                        ? new DateTime(year, month, end.Day)
-                        : new DateTime(year, month, DateTime.DaysInMonth(year, month));
-                    totalBudget += GetRsult(startDate, endDate);
+                    var startDate = GetStartDay(start, year, month);
+                    var endDate = GetEndDate(end, year, month);
+                    totalBudget += GetResultByGivenMonth(startDate, endDate);
                 }
             }
 
             return totalBudget;
         }
 
-        private decimal GetRsult(DateTime startDate, DateTime endDate)
+        private static DateTime GetEndDate(DateTime end, int year, int month)
+        {
+            return end.Year == year && end.Month == month
+                ? new DateTime(year, month, end.Day)
+                : new DateTime(year, month, DateTime.DaysInMonth(year, month));
+        }
+
+        private static DateTime GetStartDay(DateTime start, int year, int month)
+        {
+            return start.Year == year && start.Month == month
+                ? new DateTime(year, month, start.Day)
+                : new DateTime(year, month, 1);
+        }
+
+        private decimal GetResultByGivenMonth(DateTime startDate, DateTime endDate)
         {
             var budgetResult = _repo.GetBudget().FirstOrDefault(x => x.Month == $"{startDate:yyyyMM}");
 

@@ -62,7 +62,7 @@
     <Compile Include="BudgerCalculator.cs" />
     <Compile Include="Budget.cs" />
     <Compile Include="IRepository.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="BudgetTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

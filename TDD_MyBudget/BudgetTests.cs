@@ -7,7 +7,7 @@ using NSubstitute;
 namespace TDD_MyBudget
 {
     [TestClass]
-    public class UnitTest1
+    public class BudgetTests
     {
         public IRepository<Budget> Repo = Substitute.For<IRepository<Budget>>();
         public BudgerCalculator BC;
@@ -64,7 +64,22 @@ namespace TDD_MyBudget
             var val = BC.ReturnAmount(ConvertDateTime("20180801"),
                 ConvertDateTime("20180815"));
             Assert.AreEqual(0, val);
+        }
 
+        [TestMethod]
+        public void GetMidMonthResult()
+        {
+            var val = BC.ReturnAmount(ConvertDateTime("20180615"),
+                ConvertDateTime("20180715"));
+            Assert.AreEqual(310, val);
+        }
+
+        [TestMethod]
+        public void GetMidMonthResultWithOutBudget()
+        {
+            var val = BC.ReturnAmount(ConvertDateTime("20180715"),
+                ConvertDateTime("20180815"));
+            Assert.AreEqual(170, val);
         }
 
         [TestMethod]
