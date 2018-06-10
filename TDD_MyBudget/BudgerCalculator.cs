@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TDD_MyBudget
 {
@@ -28,14 +23,14 @@ namespace TDD_MyBudget
             }
 
             decimal totalBudget = 0;
-            for (int year = StartDate.Year; year <= EndDate.Year; year++)
+            for (var year = StartDate.Year; year <= EndDate.Year; year++)
             {
-                for (int month = StartDate.Month; month <= EndDate.Month; month++)
+                for (var month = StartDate.Month; month <= EndDate.Month; month++)
                 {
-                    DateTime startDate = StartDate.Year == year && StartDate.Month == month
+                    var startDate = StartDate.Year == year && StartDate.Month == month
                         ? new DateTime(year, month, StartDate.Day)
                         : new DateTime(year, month, 1);
-                    DateTime endDate = EndDate.Year == year && EndDate.Month == month
+                    var endDate = EndDate.Year == year && EndDate.Month == month
                         ? new DateTime(year, month, EndDate.Day)
                         : new DateTime(year, month, DateTime.DaysInMonth(year, month));
                     totalBudget += GetRsult(startDate, endDate);
@@ -43,16 +38,15 @@ namespace TDD_MyBudget
             }
 
             return totalBudget;
-            return 0;
         }
 
-        private decimal GetRsult(DateTime StartDate, DateTime EndDate)
+        private decimal GetRsult(DateTime startDate, DateTime endDate)
         {
-            var budgetResult = _repo.GetBudget().FirstOrDefault(x => x.Month == string.Format("{0:yyyyMM}", StartDate));
+            var budgetResult = _repo.GetBudget().FirstOrDefault(x => x.Month == $"{startDate:yyyyMM}");
 
             var budget = (budgetResult == null) ? 0 : budgetResult.Amount;
 
-            var amount = budget * ((EndDate - StartDate).Days + 1) / DateTime.DaysInMonth(StartDate.Year, StartDate.Month);
+            var amount = budget * ((endDate - startDate).Days + 1) / DateTime.DaysInMonth(startDate.Year, startDate.Month);
 
             return amount;
         }
